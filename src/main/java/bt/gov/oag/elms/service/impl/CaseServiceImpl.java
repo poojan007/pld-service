@@ -79,7 +79,7 @@ public class CaseServiceImpl implements CaseService {
 
 	@Override
 	public List<IncomingLetter> getIncomingLetterList() {
-		String letter_status = "Not Forwarded";
+		String letter_status = "Y";
 		List<IncomingLetter> apiResponse = new ArrayList<>();
 		try {
 			apiResponse = incomingLetterRepository.findByLetterStatus(letter_status);

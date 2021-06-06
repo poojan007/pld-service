@@ -11,7 +11,7 @@ import bt.gov.oag.elms.pojo.CaseApiResponse;
 public interface CaseService {
 
 	CaseApiResponse saveIncomingLetter(IncomingLetter entity); 
-	List<IncomingLetter> getIncomingLetterList();
+	List<CaseApiResponse> getIncomingLetterList();
 	CaseApiResponse updateIncomingLetter(IncomingLetter entity, Long id);
 	CaseApiResponse logicalDeleteIncomingLetter(Long id);
 	CaseApiResponse removeDeleteIncomingLetter(Long id);

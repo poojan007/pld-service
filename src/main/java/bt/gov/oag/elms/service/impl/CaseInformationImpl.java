@@ -90,7 +90,7 @@ public class CaseInformationImpl implements CaseInformationService {
 
 		try {
 			incomingLetter = incomingLetterRepository.findById(entity.getIncomingLetterId()).orElse(null);
-			incomingLetter.setCaseDataExist(1);
+			incomingLetter.setCaseDataExist(Long.parseLong("1"));
 	
 			String assignee = String.valueOf(incomingLetter.getForwardedTo());
 

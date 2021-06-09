@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Data;
 
@@ -37,14 +40,25 @@ public class CaseInformation {
 	private Timestamp updatedOn;
 	private int updatedBy;
 	private String updatedByName;
+	@Column(name = "referring_agency_id")
+    private Long referringAgencyId;
+	
+//	 private String fileName;
+//	  @ColumnDefault(value = "Request")
+//	  @NotNull
+//	  private String powerOfAttorney;
 	
 	@OneToOne
 	@JoinColumn(name = "jurisdiction_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Jurisdiction getJurisdiction;  
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "referring_agency_id")
-	private Agency getAgency;   
+//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "referring_agency_id")
+//	private Agency getAgency;   
+	
+	 @OneToOne
+	  @JoinColumn(name = "referring_agency_id", referencedColumnName = "id", insertable = false, updatable = false)
+	  private Agency getAgency;
 	
 //	@OneToOne
 //	@JoinColumn(name = "incoming_letter_id", referencedColumnName = "id", insertable = false, updatable = false)

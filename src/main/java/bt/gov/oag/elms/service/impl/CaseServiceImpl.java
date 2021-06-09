@@ -58,6 +58,7 @@ public class CaseServiceImpl implements CaseService {
 
 		try {
 			incomingLetterRepository.save(entity);
+			apiResponse.setId(entity.getId());
 			apiResponse.setMessage("Success");
 			apiResponse.setStatus(HttpStatus.OK);
 
@@ -176,7 +177,7 @@ public class CaseServiceImpl implements CaseService {
 		try {
 			incomingLetterData = incomingLetterRepository.findById(id).orElse(null);
 			workflowResponse = workflowprocess.startProcess(incomingLetterData.getGetFileCategory().getAssignee(),
-					incomingLetterData.getGetFileCategory().getProcessKey());
+			incomingLetterData.getGetFileCategory().getProcessKey());
 
 			Object processInstanceId = workflowResponse.getData();
 			incomingLetterData.setProccessId(processInstanceId.toString());
@@ -329,16 +330,16 @@ public class CaseServiceImpl implements CaseService {
 				caseResponse.setTaskIntanceId(task.getId());
 				caseResponse.setCaseStatus(task.getName());
 
-				Long incoming_letter_id = incomingLetter.getId();
-
-				CaseInformation caseInformation = caseInformationRepository.findByIncomingLetterId(incoming_letter_id);
-
-				BeanUtils.copyProperties(caseInformation, caseResponse);
-				caseResponse.setJurisdictionName(caseInformation.getGetJurisdiction().getJurisdictionName());
-
-				DefendantInformation defendantInformation = defendantInformationRepository
-						.findByIncomingLetterId(incoming_letter_id);
-				BeanUtils.copyProperties(defendantInformation, caseResponse);
+//		     Long incoming_letter_id = incomingLetter.getId();
+//
+//				CaseInformation caseInformation = caseInformationRepository.findByIncomingLetterId(incoming_letter_id);
+//
+//			    BeanUtils.copyProperties(caseInformation, caseResponse);
+//				caseResponse.setJurisdictionName(caseInformation.getGetJurisdiction().getJurisdictionName());
+//
+//			DefendantInformation defendantInformation = defendantInformationRepository
+//					.findByIncomingLetterId(incoming_letter_id);
+//			BeanUtils.copyProperties(defendantInformation, caseResponse);
 
 				caseApiResponse.add(caseResponse);
 			}

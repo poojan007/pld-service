@@ -44,6 +44,7 @@ public class VictimInformation {
 	private Timestamp updatedOn;
 	private int updatedBy; 
 	private String updatedByName; 
+	private Long ministryId;
 	
 	@OneToOne
 	@JoinColumn(name = "dzongkhag_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -57,6 +58,6 @@ public class VictimInformation {
 	@OneToOne
 	@JoinColumn(name = "village_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Village getVillage;
-	
+
 	
 }

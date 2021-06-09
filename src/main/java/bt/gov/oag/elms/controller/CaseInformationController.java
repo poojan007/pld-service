@@ -1,5 +1,7 @@
 package bt.gov.oag.elms.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +55,7 @@ public class CaseInformationController {
 	}
 
 	@GetMapping("/victim-information-by-caseId/{incoming_letter_id}")
-	public ResponseEntity<VictimInformation> getVictimInformationByCaseId(@PathVariable Long incoming_letter_id) {
+	public ResponseEntity <List<VictimInformation>> getVictimInformationByCaseId(@PathVariable Long incoming_letter_id) {
 		return caseInformationService.getVictimInformationByCaseId(incoming_letter_id);
 	}
 	
@@ -69,7 +71,7 @@ public class CaseInformationController {
 	}
 
 	@GetMapping("/defendant-information-by-caseId/{incoming_letter_id}")
-	public ResponseEntity<DefendantInformation> getDefendantInformationByCaseId(@PathVariable Long incoming_letter_id) {
+	public ResponseEntity <List<DefendantInformation>> getDefendantInformationByCaseId(@PathVariable Long incoming_letter_id) {
 		return caseInformationService.getDefendantInformationByCaseId(incoming_letter_id);
 	}
 

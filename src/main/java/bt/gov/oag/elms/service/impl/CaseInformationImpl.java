@@ -1,6 +1,7 @@
 package bt.gov.oag.elms.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -48,6 +49,7 @@ public class CaseInformationImpl implements CaseInformationService {
 
 	@Override
 	public ResponseEntity<CaseInformation> saveCaseInformation(CaseInformation entity) {
+	
 		return new ResponseEntity<CaseInformation>(caseInformationRepository.save(entity), HttpStatus.OK);
 	}
 
@@ -74,8 +76,8 @@ public class CaseInformationImpl implements CaseInformationService {
 	}
 
 	@Override
-	public ResponseEntity<DefendantInformation> getDefendantInformationByCaseId(Long incoming_letter_id) {
-		return new ResponseEntity<DefendantInformation>(
+	public ResponseEntity<List<DefendantInformation>> getDefendantInformationByCaseId(Long incoming_letter_id) {
+		return new ResponseEntity<List<DefendantInformation>>(
 				defendantInformationRepository.findByIncomingLetterId(incoming_letter_id), HttpStatus.OK);
 	}
 
@@ -88,6 +90,8 @@ public class CaseInformationImpl implements CaseInformationService {
 
 		try {
 			incomingLetter = incomingLetterRepository.findById(entity.getIncomingLetterId()).orElse(null);
+			incomingLetter.setCaseDataExist(1);
+	
 			String assignee = String.valueOf(incomingLetter.getForwardedTo());
 
 			body.put("assigneeProsecutor", assignee);
@@ -95,6 +99,7 @@ public class CaseInformationImpl implements CaseInformationService {
 			workflowprocess.completeTask(taskInstanceId, body);
 
 			investigatingOfficerRepository.save(entity);
+			incomingLetterRepository.save(incomingLetter);
 			caseApiResponse.setMessage("Successfully updated");
 
 			return new ResponseEntity<CaseApiResponse>(caseApiResponse, HttpStatus.OK);
@@ -130,8 +135,8 @@ public class CaseInformationImpl implements CaseInformationService {
 	}
 
 	@Override
-	public ResponseEntity<VictimInformation> getVictimInformationByCaseId(Long incoming_letter_id) {
-		return new ResponseEntity<VictimInformation>(
+	public ResponseEntity<List<VictimInformation>> getVictimInformationByCaseId(Long incoming_letter_id) {
+		return new ResponseEntity <List<VictimInformation>>(
 				victimInformationRepository.findByIncomingLetterId(incoming_letter_id), HttpStatus.OK);
 	}
 

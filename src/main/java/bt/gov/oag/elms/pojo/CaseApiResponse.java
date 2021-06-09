@@ -16,6 +16,7 @@ public class CaseApiResponse {
 	private Long agencyId;
 	private String taskIntanceId;
 	private String caseStatus;
+	private String formKey;
 	private int assignee;
 	private Boolean hasFollowedDueProcess;
 	

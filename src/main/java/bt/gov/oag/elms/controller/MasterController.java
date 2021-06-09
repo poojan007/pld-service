@@ -15,6 +15,7 @@ import bt.gov.oag.elms.entity.Dzongkhag;
 import bt.gov.oag.elms.entity.FileCategory;
 import bt.gov.oag.elms.entity.Gewog;
 import bt.gov.oag.elms.entity.Jurisdiction;
+import bt.gov.oag.elms.entity.Offence;
 import bt.gov.oag.elms.entity.PoliceStation;
 import bt.gov.oag.elms.entity.Village;
 import bt.gov.oag.elms.service.MasterService;
@@ -66,4 +67,8 @@ public class MasterController {
 		return masterService.getJurisdictionList();
 	}
 
+	@GetMapping("/offence-list")
+	public ResponseEntity<List<Offence>> getOffenceList() {
+		return masterService.getOffenceList();
+	} 
 }

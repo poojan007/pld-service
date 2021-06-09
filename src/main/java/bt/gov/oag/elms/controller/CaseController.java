@@ -62,12 +62,12 @@ public class CaseController {
 	}
 
 	@GetMapping("/incoming-letter")
-	public List<IncomingLetter> getIncomingLetterList() {
+	public List<CaseApiResponse> getIncomingLetterList() {
 		return caseService.getIncomingLetterList();
 	}
 
 	@GetMapping("/incoming-letter/{id}")
-	public  CaseApiResponse getIncomingLetterById(@PathVariable Long id) {
+	public CaseApiResponse getIncomingLetterById(@PathVariable Long id) {
 		return caseService.getIncomingLetterById(id);
 	}
 
@@ -119,5 +119,4 @@ public class CaseController {
 	public CaseApiResponse updateCaseStatus(@PathVariable("id") Long id,@PathVariable("letterStatus") String letterStatus) {
 		return caseService.updateCaseStatus(id, letterStatus);
 	}
-	 
 }

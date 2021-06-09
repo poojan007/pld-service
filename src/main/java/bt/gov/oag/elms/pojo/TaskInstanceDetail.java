@@ -18,6 +18,7 @@ public class TaskInstanceDetail {
 	private String comment;
 	private String processDefinitionId;
 	private String processInstanceId;
+	private String formKey;
 	private Object taskVariables;
 	
 }

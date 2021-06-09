@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.Data;
 
 @Entity
@@ -24,15 +26,18 @@ public class IncomingLetter {
 	private String senderName;
 	private Timestamp letterDate; 
 	private String receiptNo;
+	@CreationTimestamp
 	private Timestamp updatedOn;
 	private int updatedBy;
 	private String updatedByName;
+	@CreationTimestamp
 	private Timestamp addedOn;
 	private int addedBy;
 	private String addedByName;
 	private String proccessId; 
 	private int forwardedTo;
 	private String forwardedToName;
+	@CreationTimestamp
 	private Timestamp forwardedOn; 
 	private int examineFact;
 	private int dueProcess;

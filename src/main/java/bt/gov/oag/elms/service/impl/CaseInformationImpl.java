@@ -53,8 +53,8 @@ public class CaseInformationImpl implements CaseInformationService {
 
 	@Override
 	public ResponseEntity<CaseInformation> getCaseInformationByCaseId(Long incoming_letter_id) {
-		return new ResponseEntity<CaseInformation>(caseInformationRepository.findByIncomingLetterId(incoming_letter_id),
-				HttpStatus.OK);
+		CaseInformation caseInformation = caseInformationRepository.findByIncomingLetterId(incoming_letter_id);
+		return new ResponseEntity<CaseInformation>(caseInformation, HttpStatus.OK);
 	}
 
 	@Override

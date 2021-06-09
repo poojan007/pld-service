@@ -78,15 +78,26 @@ public class CaseServiceImpl implements CaseService {
 	}
 
 	@Override
-	public List<IncomingLetter> getIncomingLetterList() {
+	public List<CaseApiResponse> getIncomingLetterList() {
 		String letter_status = "Y";
+		List<CaseApiResponse> caseApiResponses = new ArrayList<>();
 		List<IncomingLetter> apiResponse = new ArrayList<>();
 		try {
 			apiResponse = incomingLetterRepository.findByLetterStatus(letter_status);
+			
+			for (IncomingLetter task : apiResponse) { 
+				CaseApiResponse caseResponse = new CaseApiResponse(); 
+				BeanUtils.copyProperties(task, caseResponse);
+				caseResponse.setAgencyName(task.getGetAgency().getAgencyName());
+				caseResponse.setFileCategoryName(task.getGetFileCategory().getFileCategory());  
+
+				caseApiResponses.add(caseResponse);
+			}
+			
 		} catch (Exception e) {
 			LOGGER.error("Get Incoming Letter: ", e);
 		}
-		return apiResponse;
+		return caseApiResponses;
 	}
 
 	@Override
@@ -231,12 +242,14 @@ public class CaseServiceImpl implements CaseService {
 				caseResponse.setFileCategoryName(incomingLetter.getGetFileCategory().getFileCategory());
 				caseResponse.setTaskIntanceId(task.getId());
 				caseResponse.setCaseStatus(task.getName());
+				caseResponse.setFormKey(task.getFormKey());
 
 				caseApiResponse.add(caseResponse);
 			}
 
 			return new ResponseEntity<List<CaseApiResponse>>(caseApiResponse, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<List<CaseApiResponse>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

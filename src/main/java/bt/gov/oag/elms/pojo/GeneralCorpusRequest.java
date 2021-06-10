@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class GeneralCorpusRequest {
+	
 	private int incomingLetterId;
 	private Date corpusDate;
 	private String briefFact;
@@ -18,4 +19,5 @@ public class GeneralCorpusRequest {
 	private int createdBy;
 	private int updatedBy;
 	private List<TaskVariables> taskVariables;
+
 }

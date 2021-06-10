@@ -11,24 +11,35 @@ import bt.gov.oag.elms.entity.InvestigatingOfficer;
 import bt.gov.oag.elms.entity.VictimInformation;
 import bt.gov.oag.elms.pojo.CaseApiResponse;
 import bt.gov.oag.elms.pojo.InvestigatingOfficerResponse;
+import bt.gov.oag.elms.pojo.DefendantResponse;
 
 public interface CaseInformationService {
 
-	ResponseEntity<CaseInformation> saveCaseInformation(CaseInformation entity); 
-	ResponseEntity<CaseInformation> getCaseInformationByCaseId(Long incoming_letter_id);
-	ResponseEntity<CaseInformation> getCaseInformationById(Long id);
-	ResponseEntity<DefendantInformation> saveDefendantInformation(DefendantInformation entity);
-	ResponseEntity<DefendantInformation> getDefendantInformationById(Long id);
-	ResponseEntity<List<DefendantInformation>> getDefendantInformationByCaseId(Long incoming_letter_id);
-	ResponseEntity<CaseApiResponse> saveInvestigatingInformation(InvestigatingOfficer entity,String taskInstanceId);
-	ResponseEntity<InvestigatingOfficer> getInvestigatingOfficerInformationById(Long id);
-	ResponseEntity<InvestigatingOfficerResponse> getInvestigatingInformationByCaseId(Long incoming_letter_id);
-	ResponseEntity<VictimInformation> saveVictimInformation(VictimInformation entity);
-	ResponseEntity<VictimInformation> getVictimInformationById(Long id);
-	ResponseEntity<List<VictimInformation>> getVictimInformationByCaseId(Long incoming_letter_id);
-	ResponseEntity<CaseApiResponse> saveWorkloadDetails(IncomingLetter entity, String taskInstanceId,
-			String decision_key, Boolean examine_fact); 
+	ResponseEntity<CaseInformation> saveCaseInformation(CaseInformation entity);
 
-	 
+	ResponseEntity<CaseInformation> getCaseInformationByCaseId(Long incoming_letter_id);
+
+	ResponseEntity<CaseInformation> getCaseInformationById(Long id);
+
+	ResponseEntity<DefendantInformation> saveDefendantInformation(DefendantInformation entity);
+
+	ResponseEntity<DefendantInformation> getDefendantInformationById(Long id);
+
+	List<DefendantResponse> getDefendantInformationByCaseId(Long incoming_letter_id);
+
+	ResponseEntity<CaseApiResponse> saveInvestigatingInformation(InvestigatingOfficer entity, String taskInstanceId);
+
+	ResponseEntity<InvestigatingOfficer> getInvestigatingOfficerInformationById(Long id);
+	
+	ResponseEntity<InvestigatingOfficerResponse> getInvestigatingInformationByCaseId(Long incoming_letter_id);
+
+	ResponseEntity<VictimInformation> saveVictimInformation(VictimInformation entity);
+
+	ResponseEntity<VictimInformation> getVictimInformationById(Long id);
+ 
+	ResponseEntity<List<VictimInformation>> getVictimInformationByCaseId(Long incoming_letter_id);
+	
+	ResponseEntity<CaseApiResponse> saveWorkloadDetails(IncomingLetter entity, String taskInstanceId,
+			String decision_key, Boolean examine_fact);  
 
 }

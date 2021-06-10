@@ -14,6 +14,7 @@ import bt.gov.oag.elms.entity.Dzongkhag;
 import bt.gov.oag.elms.entity.FileCategory;
 import bt.gov.oag.elms.entity.Gewog;
 import bt.gov.oag.elms.entity.Jurisdiction;
+import bt.gov.oag.elms.entity.Ministry;
 import bt.gov.oag.elms.entity.Offence;
 import bt.gov.oag.elms.entity.PoliceStation;
 import bt.gov.oag.elms.entity.Village;
@@ -24,6 +25,7 @@ import bt.gov.oag.elms.repository.DzongkhagRepository;
 import bt.gov.oag.elms.repository.FileCategoryRepository;
 import bt.gov.oag.elms.repository.GewogRepository;
 import bt.gov.oag.elms.repository.JurisdictionRepository;
+import bt.gov.oag.elms.repository.MinistryRepository;
 import bt.gov.oag.elms.repository.OffenceRepository;
 import bt.gov.oag.elms.repository.PoliceStationRepository;
 import bt.gov.oag.elms.repository.VillageRepository;
@@ -58,6 +60,9 @@ public class MasterServiceImpl implements MasterService {
 
 	@Autowired
 	JurisdictionRepository jurisdictionRepository;
+	
+	@Autowired
+	MinistryRepository ministryRepository;
 
 	@Override
 	public ResponseEntity<List<Agency>> getAgencyList() { 
@@ -111,6 +116,11 @@ public class MasterServiceImpl implements MasterService {
 	@Override
 	public ResponseEntity<List<Offence>> getOffenceList() { 
 		return new ResponseEntity<List<Offence>>(offeceRepository.findAll(),HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<Ministry>> getMinistryList() {
+		return new ResponseEntity<List<Ministry>>(ministryRepository.findAll(), HttpStatus.OK);
 	}
 
 }

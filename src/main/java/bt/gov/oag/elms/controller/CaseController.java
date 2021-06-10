@@ -119,5 +119,4 @@ public class CaseController {
 	public CaseApiResponse updateCaseStatus(@PathVariable("id") Long id,@PathVariable("letterStatus") String letterStatus) {
 		return caseService.updateCaseStatus(id, letterStatus);
 	}
-	 
 }

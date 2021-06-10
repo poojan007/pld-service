@@ -10,6 +10,7 @@ import bt.gov.oag.elms.entity.Dzongkhag;
 import bt.gov.oag.elms.entity.FileCategory;
 import bt.gov.oag.elms.entity.Gewog;
 import bt.gov.oag.elms.entity.Jurisdiction;
+import bt.gov.oag.elms.entity.Ministry;
 import bt.gov.oag.elms.entity.Offence;
 import bt.gov.oag.elms.entity.PoliceStation;
 import bt.gov.oag.elms.entity.Village;
@@ -25,5 +26,7 @@ public interface MasterService {
 	ResponseEntity<List<PoliceStation>> getPoliceStationListBasedOnDzongkhag(int dzongkhag);
 	ResponseEntity<List<Jurisdiction>> getJurisdictionList();
 	ResponseEntity<List<Offence>> getOffenceList();
+	ResponseEntity<List<Ministry>> getMinistryList();
+
 
 }

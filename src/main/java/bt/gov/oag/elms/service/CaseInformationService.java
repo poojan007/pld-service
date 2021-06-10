@@ -37,6 +37,9 @@ public interface CaseInformationService {
 	ResponseEntity<VictimInformation> getVictimInformationById(Long id);
 
 	ResponseEntity<VictimInformation> getVictimInformationByCaseId(Long incoming_letter_id);
+	ResponseEntity<List<VictimInformation>> getVictimInformationByCaseId(Long incoming_letter_id);
+	ResponseEntity<CaseApiResponse> saveWorkloadDetails(IncomingLetter entity, String taskInstanceId,
+			String decision_key, Boolean examine_fact); 
 
 	ResponseEntity<CaseApiResponse> saveWorkloadDetails(IncomingLetter entity, String taskInstanceId,
 			String decision_key, Boolean examine_fact);

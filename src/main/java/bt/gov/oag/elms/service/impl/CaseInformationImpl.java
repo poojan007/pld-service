@@ -58,13 +58,14 @@ public class CaseInformationImpl implements CaseInformationService {
 
 	@Override
 	public ResponseEntity<CaseInformation> saveCaseInformation(CaseInformation entity) {
+	
 		return new ResponseEntity<CaseInformation>(caseInformationRepository.save(entity), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<CaseInformation> getCaseInformationByCaseId(Long incoming_letter_id) {
-		return new ResponseEntity<CaseInformation>(caseInformationRepository.findByIncomingLetterId(incoming_letter_id),
-				HttpStatus.OK);
+		CaseInformation caseInformation = caseInformationRepository.findByIncomingLetterId(incoming_letter_id);
+		return new ResponseEntity<CaseInformation>(caseInformation, HttpStatus.OK);
 	}
 
 	@Override
@@ -112,6 +113,9 @@ public class CaseInformationImpl implements CaseInformationService {
 
 		return defendantResponseList;
 
+	public ResponseEntity<List<DefendantInformation>> getDefendantInformationByCaseId(Long incoming_letter_id) {
+		return new ResponseEntity<List<DefendantInformation>>(
+				defendantInformationRepository.findByIncomingLetterId(incoming_letter_id), HttpStatus.OK);
 	}
 
 	@Override
@@ -123,6 +127,8 @@ public class CaseInformationImpl implements CaseInformationService {
 
 		try {
 			incomingLetter = incomingLetterRepository.findById(entity.getIncomingLetterId()).orElse(null);
+			incomingLetter.setCaseDataExist(Long.parseLong("1"));
+	
 			String assignee = String.valueOf(incomingLetter.getForwardedTo());
 
 			body.put("assigneeProsecutor", assignee);
@@ -130,6 +136,7 @@ public class CaseInformationImpl implements CaseInformationService {
 			workflowprocess.completeTask(taskInstanceId, body);
 
 			investigatingOfficerRepository.save(entity);
+			incomingLetterRepository.save(incomingLetter);
 			caseApiResponse.setMessage("Successfully updated");
 
 			return new ResponseEntity<CaseApiResponse>(caseApiResponse, HttpStatus.OK);
@@ -165,8 +172,8 @@ public class CaseInformationImpl implements CaseInformationService {
 	}
 
 	@Override
-	public ResponseEntity<VictimInformation> getVictimInformationByCaseId(Long incoming_letter_id) {
-		return new ResponseEntity<VictimInformation>(
+	public ResponseEntity<List<VictimInformation>> getVictimInformationByCaseId(Long incoming_letter_id) {
+		return new ResponseEntity <List<VictimInformation>>(
 				victimInformationRepository.findByIncomingLetterId(incoming_letter_id), HttpStatus.OK);
 	}
 

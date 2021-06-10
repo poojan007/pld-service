@@ -2,6 +2,8 @@ package bt.gov.oag.elms.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import bt.gov.oag.elms.entity.CaseBrief;
 import bt.gov.oag.elms.entity.ConflictOfInterest;
-import bt.gov.oag.elms.pojo.CaseBriefResponse;
+import bt.gov.oag.elms.pojo.CaseBriefRequest;
 import bt.gov.oag.elms.service.CaseBriefCorpusService;
 
 @RestController
@@ -24,11 +26,10 @@ public class CaseBriefCorpusController {
 	private CaseBriefCorpusService caseBriefCorpusService;
 
 	/* Case Brief */
-	@PostMapping("/details/{taskInstanceId}/{decision_key}/{category}")
-	public ResponseEntity<CaseBriefResponse> saveCaseBriefDetails(@RequestBody CaseBrief entity,
-			@PathVariable("taskInstanceId") String taskInstanceId, @PathVariable("decision_key") String decision_key,
-			@PathVariable("category") String category) {
-		return caseBriefCorpusService.saveCaseBriefDetails(entity, taskInstanceId, decision_key, category);
+	@PostMapping("/details/{taskInstanceId}")
+	public ResponseEntity<CaseBrief> saveCaseBriefDetails(@RequestBody CaseBriefRequest request,
+			@PathVariable("taskInstanceId") String taskInstanceId, HttpServletRequest req) {
+		return caseBriefCorpusService.saveCaseBriefDetails(request, taskInstanceId, req);
 	}
 
 	@GetMapping("/details")

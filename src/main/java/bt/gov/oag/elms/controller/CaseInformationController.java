@@ -95,7 +95,7 @@ public class CaseInformationController {
 	/* ********* Prosecution Workload ********* */ 
 	
 	@PostMapping("/workload-details/{taskInstanceId}/{decision_key}/{examine_fact}")
-	public ResponseEntity<CaseApiResponse> saveWorkloadDetails(@RequestBody IncomingLetter entity,@PathVariable("taskInstanceId") String taskInstanceId,@PathVariable ("decision_key") String decision_key,@PathVariable Boolean examine_fact) {
+	public ResponseEntity<CaseApiResponse> saveWorkloadDetails(@RequestBody CaseApiResponse entity,@PathVariable("taskInstanceId") String taskInstanceId,@PathVariable ("decision_key") String decision_key,@PathVariable Boolean examine_fact) {
 		return caseInformationService.saveWorkloadDetails(entity,taskInstanceId, decision_key,examine_fact);
 	} 
 	

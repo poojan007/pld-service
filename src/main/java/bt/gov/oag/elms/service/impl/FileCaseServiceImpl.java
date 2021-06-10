@@ -26,6 +26,8 @@ import bt.gov.oag.elms.pojo.CaseInformationRequest;
 import bt.gov.oag.elms.pojo.CaseInformationResponse;
 import bt.gov.oag.elms.pojo.CaseJudgementRequest;
 import bt.gov.oag.elms.pojo.CaseJudgementResponse;
+import bt.gov.oag.elms.pojo.TaskInstanceDetail;
+import bt.gov.oag.elms.pojo.TaskVariables;
 import bt.gov.oag.elms.repository.CaseInformationRepository;
 import bt.gov.oag.elms.repository.CaseJudgementRepo;
 import bt.gov.oag.elms.repository.CourtHearingRepo;
@@ -36,6 +38,8 @@ import bt.gov.oag.elms.service.FileCaseService;
 @Service
 public class FileCaseServiceImpl implements FileCaseService {
 
+	Map<String, Object> body = new HashMap<String, Object>();
+	
 	@Value("${spring.servlet.multipart.location}")
 	String FILE_DIRECTORY;
 
@@ -76,13 +80,14 @@ public class FileCaseServiceImpl implements FileCaseService {
 
 		try {  
 			 
+			body.put(caseRequest.getTaskVariables().get(0).getKey(), caseRequest.getTaskVariables().get(0).getValue()); 
+			workflowService.completeTask(taskInstanceId, body);
+			
 			caseInformationRepository.save(updateCaseInformation);
 
 			caseInformationResponse.setMessage("Success");
-			caseInformationResponse.setStatus(HttpStatus.OK);
+			caseInformationResponse.setStatus(HttpStatus.OK); 
 			
-			//workflowService.completeTask(taskInstanceId,taskUtilService.processTaskVariables(caseRequest.getTaskVariables()));
-
 		} catch (Exception e) { 
 			caseInformationResponse.setMessage("Error");
 			caseInformationResponse.setStatus(HttpStatus.OK);
@@ -120,13 +125,17 @@ public class FileCaseServiceImpl implements FileCaseService {
 	JudgementReportRepo judgementReportRepo;
 	 
 	@Override
-	public ResponseEntity<CaseJudgementResponse> saveCaseJudgement(CaseJudgementRequest caseJudgementRequest) {
+	public ResponseEntity<CaseJudgementResponse> saveCaseJudgement(CaseJudgementRequest caseJudgementRequest,String taskInstanceId) {
 		
 		CaseJudgementResponse caseJudgementResponse = new CaseJudgementResponse(); 
 		CaseJudgement saveJudgement = new CaseJudgement();
 		
 		try {
 			BeanUtils.copyProperties(caseJudgementRequest, saveJudgement);
+			
+			body.put(caseJudgementRequest.getTaskVariables().get(0).getKey(), caseJudgementRequest.getTaskVariables().get(0).getValue()); 
+			workflowService.completeTask(taskInstanceId, body);
+			
 			caseJudgementRepo.save(saveJudgement);
 			caseJudgementResponse.setMessage("Successfully Added"); 
 			return new ResponseEntity<CaseJudgementResponse>(caseJudgementResponse,HttpStatus.OK);
@@ -149,8 +158,8 @@ public class FileCaseServiceImpl implements FileCaseService {
 			
 			caseJudgementResponse.setMessage("Successfully Added"); 
 			
-			//      workflowService.completeTask(taskInstanceId, taskUtilService.processTaskVariables(judgementReport.getTaskVariables()));
-
+			body.put(judgementReport.getTaskVariables().get(0).getKey(),judgementReport.getTaskVariables().get(0).getValue());  
+			workflowService.completeTask(taskInstanceId, body); 
 			
 			return new ResponseEntity<CaseJudgementResponse>(caseJudgementResponse,HttpStatus.OK);
 		} catch (Exception e) {
@@ -165,18 +174,61 @@ public class FileCaseServiceImpl implements FileCaseService {
 
 		CaseJudgementResponse caseJudgementResponse = new CaseJudgementResponse();
 		
-		try {
-			
-			
-			workflowService.completeTask(taskInstanceId, taskUtilService.processTaskVariables(sendAgency.getTaskVariables()));
-
+		try { 
+			body.put(sendAgency.getTaskVariables().get(0).getKey(),sendAgency.getTaskVariables().get(0).getValue());  
+			workflowService.completeTask(taskInstanceId, body); 
 			caseJudgementResponse.setMessage("Success");
 			caseJudgementResponse.setStatus(HttpStatus.OK);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			caseJudgementResponse.setMessage("Failed");
 			caseJudgementResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR); 
 			 
+		}
+		return caseJudgementResponse;
+	}
+
+	@Override
+	public CaseJudgementResponse taskCompleted(String assignee, String taskInstanceId) {
+		
+		CaseJudgementResponse caseRespone = new CaseJudgementResponse();  
+
+		try {  
+			 
+			body.put("assigneeProsecutor",assignee);  
+			workflowService.completeTask(taskInstanceId, body); 
+
+			caseRespone.setMessage("Success");
+			caseRespone.setStatus(HttpStatus.OK); 
+			
+		} catch (Exception e) { 
+			caseRespone.setMessage("Error");
+			caseRespone.setStatus(HttpStatus.OK);
+		
+		}
+
+		return caseRespone;
+	} 
+	
+	@Override
+	public CaseJudgement getCaseJudgementByCaseId(Long caseId) { 
+		return caseJudgementRepo.findByCaseId(caseId);
+	}
+
+	@Override
+	public CaseJudgementResponse decisionForCorpusMeeting(List<TaskVariables> taskVariables, String taskInstanceId) {
+		
+		CaseJudgementResponse caseJudgementResponse = new CaseJudgementResponse();
+		
+		try {
+			 body.put(taskVariables.get(0).getKey(),taskVariables.get(0).getValue());  
+			 body.put(taskVariables.get(1).getKey(),taskVariables.get(1).getValue());  
+			 
+			 workflowService.completeTask(taskInstanceId, body); 
+			 caseJudgementResponse.setMessage("Success");
+			 
+		} catch (Exception e) {
+			 caseJudgementResponse.setMessage("Failed");
 		}
 		return caseJudgementResponse;
 	} 

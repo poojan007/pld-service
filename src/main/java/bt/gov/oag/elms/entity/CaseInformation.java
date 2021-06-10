@@ -43,9 +43,7 @@ public class CaseInformation {
 	@Column(name = "referring_agency_id")
 	private Long referringAgencyId;
 
-	private String fileName;
-	@ColumnDefault(value = "Request")
-	@NotNull
+	private String fileName; 
 	private String powerOfAttorney;
 
 	@OneToOne

@@ -22,6 +22,8 @@ import bt.gov.oag.elms.pojo.CaseInformationRequest;
 import bt.gov.oag.elms.pojo.CaseInformationResponse;
 import bt.gov.oag.elms.pojo.CaseJudgementRequest;
 import bt.gov.oag.elms.pojo.CaseJudgementResponse;
+import bt.gov.oag.elms.pojo.TaskInstanceDetail;
+import bt.gov.oag.elms.pojo.TaskVariables;
 import bt.gov.oag.elms.service.FileCaseService;
 
 @RestController
@@ -56,9 +58,9 @@ public class FileCaseController {
 		return fileCaseService.getHearingByDefendant(defendant_id);
 	}
 	
-	@PostMapping("/saveJudgement")
-	public ResponseEntity<CaseJudgementResponse> saveCaseJudgement(@RequestBody CaseJudgementRequest caseJudgementRequest){
-		return fileCaseService.saveCaseJudgement(caseJudgementRequest);
+	@PostMapping("/saveJudgement/{taskInstanceId}")
+	public ResponseEntity<CaseJudgementResponse> saveCaseJudgement(@RequestBody CaseJudgementRequest caseJudgementRequest,@PathVariable String taskInstanceId){
+		return fileCaseService.saveCaseJudgement(caseJudgementRequest,taskInstanceId);
 	} 
 	
 	@PostMapping("/saveJudgementReport/{taskInstanceId}")
@@ -71,5 +73,19 @@ public class FileCaseController {
 		return fileCaseService.sendToAgency(sendMessage,taskInstanceId);
 	} 
 	
+	@PostMapping("/taskFinished/{assignee}/{taskInstanceId}")
+	public CaseJudgementResponse taskFinished(@PathVariable String assignee,@PathVariable String taskInstanceId){
+		return fileCaseService.taskCompleted(assignee,taskInstanceId);
+	} 
+	
+	@GetMapping("/getCaseJudgement/{caseId}")
+	public CaseJudgement saveCaseJudgement(@PathVariable Long caseId){
+		return fileCaseService.getCaseJudgementByCaseId(caseId);
+	} 
+	
+	@PostMapping("/decisionForCorpusMeeting/{taskInstanceId}")
+	public CaseJudgementResponse decisionForCorpusMeeting(@RequestBody List<TaskVariables> taskVariables,@PathVariable String taskInstanceId){
+		return fileCaseService.decisionForCorpusMeeting(taskVariables,taskInstanceId);
+	} 
 	   
 }

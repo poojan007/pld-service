@@ -12,6 +12,7 @@ import bt.gov.oag.elms.entity.DefendantInformation;
 @Repository
 public interface DefendantInformationRepository extends JpaRepository<DefendantInformation, Long> {
 
+	@Query(value = "SELECT * FROM defendant_information WHERE incoming_letter_id=?1",nativeQuery = true)
 	DefendantInformation findByIncomingLetterId(Long incoming_letter_id);
 
 	@Query(value = "SELECT * FROM defendant_information WHERE incoming_letter_id=?1",nativeQuery = true)

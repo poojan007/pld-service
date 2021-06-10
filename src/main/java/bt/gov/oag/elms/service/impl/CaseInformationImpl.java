@@ -86,7 +86,8 @@ public class CaseInformationImpl implements CaseInformationService {
 
 	@Override
 	public List<DefendantResponse> getDefendantInformationByCaseId(Long incoming_letter_id) {
-
+		
+		CourtHearingResponse coutCourtHearingResponses = new CourtHearingResponse();
 		List<DefendantResponse> defendantResponseList = new ArrayList<>();
 		List<DefendantInformation> defendantInformations = defendantInformationRepository
 				.findByIncomingLetterIdList(incoming_letter_id);
@@ -99,16 +100,18 @@ public class CaseInformationImpl implements CaseInformationService {
 				DefendantResponse defendantResponse = new DefendantResponse();
 				BeanUtils.copyProperties(defendant, defendantResponse);
 
-				CourtHearing courtHearing = courtHearingRepo.findByDefendantId(defendant.getId());
-				CourtHearingResponse coutCourtHearingResponses = new CourtHearingResponse();
-				BeanUtils.copyProperties(courtHearing, coutCourtHearingResponses);
-
-				defendantResponse.setCourtHearing(coutCourtHearingResponses);
+//				CourtHearing courtHearing = courtHearingRepo.findByDefendantId(defendant.getId());
+//				
+//				if(courtHearing != null) {
+//					BeanUtils.copyProperties(courtHearing, coutCourtHearingResponses); 
+//					defendantResponse.setCourtHearing(coutCourtHearingResponses); 
+//				}
+				
 				defendantResponseList.add(defendantResponse);
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		return defendantResponseList;
@@ -128,7 +131,7 @@ public class CaseInformationImpl implements CaseInformationService {
 
 		try {
 			incomingLetter = incomingLetterRepository.findById(entity.getIncomingLetterId()).orElse(null);
-			incomingLetter.setCaseDataExit(Long.parseLong("1"));
+			incomingLetter.setCaseDataExist(Long.parseLong("1"));
 	
 			String assignee = String.valueOf(incomingLetter.getForwardedTo());
 
@@ -179,29 +182,31 @@ public class CaseInformationImpl implements CaseInformationService {
 	}
 
 	@Override
-	public ResponseEntity<CaseApiResponse> saveWorkloadDetails(IncomingLetter entity, String taskInstanceId,
+	public ResponseEntity<CaseApiResponse> saveWorkloadDetails(CaseApiResponse caseRequest, String taskInstanceId,
 			String decision_key, Boolean examine_fact) {
 
-		CaseApiResponse caseApiResponse = new CaseApiResponse();
+		CaseApiResponse caseResponse = new CaseApiResponse();
+		IncomingLetter updateIncomingLetter = new IncomingLetter();
 
-		try {
-
+		try {  
+			
 			body.put(decision_key, examine_fact);
-			body.put("assigneeProsecutor", entity.getForwardedTo());
-
+			body.put(caseRequest.getTaskVariables().get(0).getKey(), caseRequest.getTaskVariables().get(0).getValue());
+			body.put(caseRequest.getTaskVariables().get(1).getKey(), caseRequest.getTaskVariables().get(1).getValue());
+			
 			workflowprocess.completeTask(taskInstanceId, body);
-
-			IncomingLetter savedEntity = incomingLetterRepository.save(entity);
-			BeanUtils.copyProperties(savedEntity, caseApiResponse);
-
-			caseApiResponse.setTaskIntanceId(taskInstanceId);
-			return new ResponseEntity<CaseApiResponse>(caseApiResponse, HttpStatus.OK);
+			
+			BeanUtils.copyProperties(caseRequest, updateIncomingLetter);
+			incomingLetterRepository.save(updateIncomingLetter); 
+			
+			caseResponse.setTaskIntanceId(taskInstanceId);
+			return new ResponseEntity<CaseApiResponse>(caseResponse, HttpStatus.OK);
 
 		} catch (Exception e) {
 
-			caseApiResponse.setMessage("Task updated failed");
-			caseApiResponse.setException(e.getMessage());
-			return new ResponseEntity<CaseApiResponse>(caseApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			caseResponse.setMessage("Task updated failed");
+			caseResponse.setException(e.getMessage());
+			return new ResponseEntity<CaseApiResponse>(caseResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
 	}

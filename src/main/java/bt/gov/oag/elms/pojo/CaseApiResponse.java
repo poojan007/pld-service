@@ -1,6 +1,7 @@
 package bt.gov.oag.elms.pojo;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
@@ -43,10 +44,12 @@ public class CaseApiResponse {
 	private int dueProcess;
 	private int accessEvidence;
 	private int caseUnderReview;   
+	private Long caseDataExist;
 	
 	private String message;
 	private HttpStatus status;
 	private String exception;
 	
 	private String jurisdictionName;
+	private List<TaskVariables> taskVariables;
 }

@@ -1,6 +1,8 @@
 package bt.gov.oag.elms.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -11,12 +13,17 @@ import org.springframework.stereotype.Service;
 
 import bt.gov.oag.elms.client.WorkflowProcess;
 import bt.gov.oag.elms.entity.CaseInformation;
+import bt.gov.oag.elms.entity.CourtHearing;
 import bt.gov.oag.elms.entity.DefendantInformation;
 import bt.gov.oag.elms.entity.IncomingLetter;
 import bt.gov.oag.elms.entity.InvestigatingOfficer;
 import bt.gov.oag.elms.entity.VictimInformation;
 import bt.gov.oag.elms.pojo.CaseApiResponse;
+import bt.gov.oag.elms.pojo.CourtHearingResponse;
+import bt.gov.oag.elms.pojo.DefendantResponse;
+import bt.gov.oag.elms.pojo.TaskInstanceDetail;
 import bt.gov.oag.elms.repository.CaseInformationRepository;
+import bt.gov.oag.elms.repository.CourtHearingRepo;
 import bt.gov.oag.elms.repository.DefendantInformationRepository;
 import bt.gov.oag.elms.repository.IncomingLetterRepository;
 import bt.gov.oag.elms.repository.InvestigatingOfficerRepository;
@@ -46,6 +53,9 @@ public class CaseInformationImpl implements CaseInformationService {
 	@Autowired
 	private VictimInformationRepository victimInformationRepository;
 
+	@Autowired
+	private CourtHearingRepo courtHearingRepo;
+
 	@Override
 	public ResponseEntity<CaseInformation> saveCaseInformation(CaseInformation entity) {
 		return new ResponseEntity<CaseInformation>(caseInformationRepository.save(entity), HttpStatus.OK);
@@ -74,9 +84,34 @@ public class CaseInformationImpl implements CaseInformationService {
 	}
 
 	@Override
-	public ResponseEntity<DefendantInformation> getDefendantInformationByCaseId(Long incoming_letter_id) {
-		return new ResponseEntity<DefendantInformation>(
-				defendantInformationRepository.findByIncomingLetterId(incoming_letter_id), HttpStatus.OK);
+	public List<DefendantResponse> getDefendantInformationByCaseId(Long incoming_letter_id) {
+
+		List<DefendantResponse> defendantResponseList = new ArrayList<>();
+		List<DefendantInformation> defendantInformations = defendantInformationRepository
+				.findByIncomingLetterIdList(incoming_letter_id);
+
+		try {
+			
+			for (DefendantInformation defendant : defendantInformations) {
+
+				defendant = defendantInformationRepository.findByIncomingLetterId(incoming_letter_id);
+				DefendantResponse defendantResponse = new DefendantResponse();
+				BeanUtils.copyProperties(defendant, defendantResponse);
+
+				CourtHearing courtHearing = courtHearingRepo.findByDefendantId(defendant.getId());
+				CourtHearingResponse coutCourtHearingResponses = new CourtHearingResponse();
+				BeanUtils.copyProperties(courtHearing, coutCourtHearingResponses);
+
+				defendantResponse.setCourtHearing(coutCourtHearingResponses);
+				defendantResponseList.add(defendantResponse);
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return defendantResponseList;
+
 	}
 
 	@Override
@@ -139,7 +174,7 @@ public class CaseInformationImpl implements CaseInformationService {
 	public ResponseEntity<CaseApiResponse> saveWorkloadDetails(IncomingLetter entity, String taskInstanceId,
 			String decision_key, Boolean examine_fact) {
 
-			CaseApiResponse caseApiResponse = new CaseApiResponse();
+		CaseApiResponse caseApiResponse = new CaseApiResponse();
 
 		try {
 
@@ -150,16 +185,16 @@ public class CaseInformationImpl implements CaseInformationService {
 
 			IncomingLetter savedEntity = incomingLetterRepository.save(entity);
 			BeanUtils.copyProperties(savedEntity, caseApiResponse);
-			
-			caseApiResponse.setTaskIntanceId(taskInstanceId); 
-			return new ResponseEntity<CaseApiResponse>(caseApiResponse, HttpStatus.OK); 
-			
+
+			caseApiResponse.setTaskIntanceId(taskInstanceId);
+			return new ResponseEntity<CaseApiResponse>(caseApiResponse, HttpStatus.OK);
+
 		} catch (Exception e) {
-			
+
 			caseApiResponse.setMessage("Task updated failed");
 			caseApiResponse.setException(e.getMessage());
 			return new ResponseEntity<CaseApiResponse>(caseApiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-			
+
 		}
 	}
 

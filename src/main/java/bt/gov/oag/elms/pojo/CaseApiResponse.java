@@ -27,21 +27,21 @@ public class CaseApiResponse {
 	private String subject;
 	private String senderName;
 	private Timestamp letterDate; 
-	private String receiptNo;
+	private String receiptNo; 
 	private Timestamp updatedOn;
 	private int updatedBy;
-	private String updatedByName;
+	private String updatedByName; 
 	private Timestamp addedOn;
 	private int addedBy;
 	private String addedByName;
 	private String proccessId; 
 	private int forwardedTo;
-	private String forwardedToName;
+	private String forwardedToName; 
 	private Timestamp forwardedOn; 
 	private int examineFact;
 	private int dueProcess;
 	private int accessEvidence;
-	private int caseUnderReview; 
+	private int caseUnderReview;   
 	
 	private String message;
 	private HttpStatus status;

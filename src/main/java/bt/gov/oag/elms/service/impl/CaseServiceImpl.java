@@ -199,18 +199,24 @@ public class CaseServiceImpl implements CaseService {
 	@Override
 	public CaseApiResponse getIncomingLetterById(Long id) {
 
-		CaseApiResponse caseApiResponse = new CaseApiResponse();
-		IncomingLetter incomingLetter = incomingLetterRepository.findById(id).orElse(null);
-
-		caseApiResponse.setMessage("Successfull");
-		caseApiResponse.setStatus(HttpStatus.OK);
+		CaseApiResponse caseApiResponse = new CaseApiResponse(); 
 
 		try {
+			
+			IncomingLetter incomingLetter = incomingLetterRepository.findById(id).orElse(null);
+			
 			BeanUtils.copyProperties(incomingLetter, caseApiResponse);
+			caseApiResponse.setFileCategoryName(incomingLetter.getGetFileCategory().getFileCategory());
+			caseApiResponse.setAgencyName(incomingLetter.getGetAgency().getAgencyName());
+			caseApiResponse.setMessage("Get Incoming letter by id");
+			caseApiResponse.setStatus(HttpStatus.OK);
+			
 		} catch (Exception e) {
+			
 			caseApiResponse.setMessage("Get Incoming Letter By Id Failed");
 			caseApiResponse.setException(e.getMessage());
 			caseApiResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			
 		}
 
 		return caseApiResponse;
@@ -260,7 +266,7 @@ public class CaseServiceImpl implements CaseService {
 
 		try {
 
-			body.put("assignee", assignee);
+			body.put("assignee", assignee); 
 			workflowprocess.completeTask(taskInstanceId, body);
 
 			incomingLetterRepository.save(entity);

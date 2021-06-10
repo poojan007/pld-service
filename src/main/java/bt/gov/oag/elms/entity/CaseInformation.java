@@ -1,17 +1,18 @@
 package bt.gov.oag.elms.entity; 
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
 
@@ -30,25 +31,29 @@ public class CaseInformation {
 	private Long incomingLetterId;  
 	private String referralCaseNo;
 	private String caseName;
-	private Date forwardingDate; 
+	@UpdateTimestamp
+	private Timestamp forwardingDate; 
 	private String offence;
 	private String evidence; 
 	private int remandPeriod; 
+	@UpdateTimestamp
 	private Timestamp updatedOn;
 	private int updatedBy;
-	private String updatedByName;
+	@Column(name = "referring_agency_id")
+	private Long referringAgencyId;
+	private String updatedByName; 
+	private String fileName;
+	@ColumnDefault(value = "Request")
+	@NotNull
+	private String powerOfAttorney;
 	
 	@OneToOne
 	@JoinColumn(name = "jurisdiction_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Jurisdiction getJurisdiction;  
-
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "referring_agency_id")
-	private Agency getAgency;   
 	
-//	@OneToOne
-//	@JoinColumn(name = "incoming_letter_id", referencedColumnName = "id", insertable = false, updatable = false)
-//	private IncomingLetter getIncomingLetterDetail;   
+	@OneToOne
+	@JoinColumn(name = "referring_agency_id", referencedColumnName = "id", insertable = false, updatable = false)
+	private Agency getAgency;      
 
 	@OneToOne
 	@JoinColumn(name = "case_type_id", referencedColumnName = "id", insertable = false, updatable = false)

@@ -72,7 +72,7 @@ public class CaseInformationController {
 	}
 
 	@GetMapping("/defendant-information-by-caseId/{incoming_letter_id}")
-	public ResponseEntity <List<DefendantInformation>> getDefendantInformationByCaseId(@PathVariable Long incoming_letter_id) {
+	public List<DefendantResponse> getDefendantInformationByCaseId(@PathVariable Long incoming_letter_id) {
 		return caseInformationService.getDefendantInformationByCaseId(incoming_letter_id);
 	}
 

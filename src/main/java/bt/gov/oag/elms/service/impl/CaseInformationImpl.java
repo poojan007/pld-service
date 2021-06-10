@@ -112,11 +112,12 @@ public class CaseInformationImpl implements CaseInformationService {
 		}
 
 		return defendantResponseList;
-
-	public ResponseEntity<List<DefendantInformation>> getDefendantInformationByCaseId(Long incoming_letter_id) {
-		return new ResponseEntity<List<DefendantInformation>>(
-				defendantInformationRepository.findByIncomingLetterId(incoming_letter_id), HttpStatus.OK);
 	}
+
+//	public ResponseEntity<List<DefendantInformation>> getDefendantInformationByCaseId(Long incoming_letter_id) {
+//		return new ResponseEntity<List<DefendantInformation>>(
+//				defendantInformationRepository.findByIncomingLetterId(incoming_letter_id), HttpStatus.OK);
+//	}
 
 	@Override
 	public ResponseEntity<CaseApiResponse> saveInvestigatingInformation(InvestigatingOfficer entity,
@@ -127,7 +128,7 @@ public class CaseInformationImpl implements CaseInformationService {
 
 		try {
 			incomingLetter = incomingLetterRepository.findById(entity.getIncomingLetterId()).orElse(null);
-			incomingLetter.setCaseDataExist(Long.parseLong("1"));
+			incomingLetter.setCaseDataExit(Long.parseLong("1"));
 	
 			String assignee = String.valueOf(incomingLetter.getForwardedTo());
 

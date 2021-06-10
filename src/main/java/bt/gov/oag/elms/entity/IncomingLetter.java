@@ -48,7 +48,7 @@ public class IncomingLetter {
 	private Long fileCategoryId;
 	@Column(name = "agency_id")
 	private Long agencyId;
-	private int caseDataExit;
+	private Long caseDataExit;
 	
 	@OneToOne
 	@JoinColumn(name = "agency_id", referencedColumnName = "id", insertable = false, updatable = false)

@@ -10,6 +10,7 @@ import bt.gov.oag.elms.entity.IncomingLetter;
 import bt.gov.oag.elms.entity.InvestigatingOfficer;
 import bt.gov.oag.elms.entity.VictimInformation;
 import bt.gov.oag.elms.pojo.CaseApiResponse;
+import bt.gov.oag.elms.pojo.InvestigatingOfficerResponse;
 import bt.gov.oag.elms.pojo.DefendantResponse;
 
 public interface CaseInformationService {
@@ -29,8 +30,8 @@ public interface CaseInformationService {
 	ResponseEntity<CaseApiResponse> saveInvestigatingInformation(InvestigatingOfficer entity, String taskInstanceId);
 
 	ResponseEntity<InvestigatingOfficer> getInvestigatingOfficerInformationById(Long id);
-
-	ResponseEntity<InvestigatingOfficer> getInvestigatingInformationByCaseId(Long incoming_letter_id);
+	
+	ResponseEntity<InvestigatingOfficerResponse> getInvestigatingInformationByCaseId(Long incoming_letter_id);
 
 	ResponseEntity<VictimInformation> saveVictimInformation(VictimInformation entity);
 

@@ -15,7 +15,8 @@ public class CaseBrief {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;  
-	private Long incoming_letter_id;
+	private Long incomingLetterId;
+	private String caseCategory;
 	private String fact;
 	private String issue;
 	private String rule;

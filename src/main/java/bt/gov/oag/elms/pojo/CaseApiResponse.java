@@ -51,5 +51,5 @@ public class CaseApiResponse {
 	private String exception;
 	
 	private String jurisdictionName;
-	private List<TaskVariables> taskVariables;
+	private List<TaskVariables> taskVariables; 
 }

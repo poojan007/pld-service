@@ -17,8 +17,10 @@ import bt.gov.oag.elms.entity.CourtHearing;
 import bt.gov.oag.elms.entity.DefendantInformation;
 import bt.gov.oag.elms.entity.IncomingLetter;
 import bt.gov.oag.elms.entity.InvestigatingOfficer;
+import bt.gov.oag.elms.entity.PoliceStation;
 import bt.gov.oag.elms.entity.VictimInformation;
 import bt.gov.oag.elms.pojo.CaseApiResponse;
+import bt.gov.oag.elms.pojo.InvestigatingOfficerResponse;
 import bt.gov.oag.elms.pojo.CourtHearingResponse;
 import bt.gov.oag.elms.pojo.DefendantResponse;
 import bt.gov.oag.elms.pojo.TaskInstanceDetail;
@@ -27,6 +29,7 @@ import bt.gov.oag.elms.repository.CourtHearingRepo;
 import bt.gov.oag.elms.repository.DefendantInformationRepository;
 import bt.gov.oag.elms.repository.IncomingLetterRepository;
 import bt.gov.oag.elms.repository.InvestigatingOfficerRepository;
+import bt.gov.oag.elms.repository.PoliceStationRepository;
 import bt.gov.oag.elms.repository.VictimInformationRepository;
 import bt.gov.oag.elms.service.CaseInformationService;
 
@@ -52,6 +55,9 @@ public class CaseInformationImpl implements CaseInformationService {
 
 	@Autowired
 	private VictimInformationRepository victimInformationRepository;
+	
+	@Autowired
+	private PoliceStationRepository policeStationRepo;
 
 	@Autowired
 	private CourtHearingRepo courtHearingRepo;
@@ -159,9 +165,17 @@ public class CaseInformationImpl implements CaseInformationService {
 	}
 
 	@Override
-	public ResponseEntity<InvestigatingOfficer> getInvestigatingInformationByCaseId(Long incoming_letter_id) {
-		return new ResponseEntity<InvestigatingOfficer>(
-				investigatingOfficerRepository.findByIncomingLetterId(incoming_letter_id), HttpStatus.OK);
+	public ResponseEntity<InvestigatingOfficerResponse> getInvestigatingInformationByCaseId(Long incoming_letter_id) {
+		InvestigatingOfficer investigatingOfficer = investigatingOfficerRepository.findByIncomingLetterId(incoming_letter_id);
+		PoliceStation policeStation = policeStationRepo.findById(investigatingOfficer.getPoliceStation()).get();
+		
+		InvestigatingOfficerResponse response = new InvestigatingOfficerResponse();
+		BeanUtils.copyProperties(investigatingOfficer, response);
+		response.setDzongkhagId(policeStation.getDzongkhag().getId());
+		response.setPoliceStationId(investigatingOfficer.getPoliceStation());
+		response.setPoliceStationName(policeStation.getPoliceStationName());
+		
+		return new ResponseEntity<InvestigatingOfficerResponse>(response, HttpStatus.OK);
 	}
 
 	@Override

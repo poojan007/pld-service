@@ -23,10 +23,8 @@ public class InvestigatingOfficer {
 	private int phoneNo;
 	private int mobileNo;
 	private String email;
-	private int policeStation;
+	private Long policeStation;
 	private Timestamp updatedOn;
 	private int updatedBy;
 	private String updatedByName;
-	
-	 
 }

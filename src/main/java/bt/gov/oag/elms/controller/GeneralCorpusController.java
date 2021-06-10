@@ -1,5 +1,7 @@
 package bt.gov.oag.elms.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import bt.gov.oag.elms.entity.GeneralCorpus;
 import bt.gov.oag.elms.pojo.GeneralCorpusRequest;
+import bt.gov.oag.elms.pojo.TaskVariables;
 import bt.gov.oag.elms.service.GeneralCorpusService;
 
 @RestController
@@ -30,5 +33,10 @@ public class GeneralCorpusController {
 	@PostMapping("/{taskInstanceId}")
 	public ResponseEntity<GeneralCorpus> createNewGeneralCorpus(@RequestBody GeneralCorpusRequest generalCorpus, @PathVariable String taskInstanceId, HttpServletRequest req){
 		return corpusService.createNewGeneralCorpus(generalCorpus, taskInstanceId, req);
+	}
+	
+	@PostMapping("/{taskInstanceId}/approve-corpus-request")
+	public ResponseEntity<?> approveCorpusMeetingRequest(@RequestBody List<TaskVariables> taskVariables, @PathVariable String taskInstanceId){
+		return corpusService.approveCorpusMeetingRequest(taskVariables, taskInstanceId);
 	}
 }

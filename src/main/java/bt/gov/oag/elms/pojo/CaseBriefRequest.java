@@ -12,6 +12,7 @@ public class CaseBriefRequest {
 	private String application;
 	private String conclusion;
 	private int createdBy;
-	private int incomingLetterId;
+	private Long incomingLetterId;
+	private String caseCategory;
 	private List<TaskVariables> taskVariables;
 }

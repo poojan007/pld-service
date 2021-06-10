@@ -17,8 +17,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bt.gov.oag.elms.client.WorkflowProcess;
-import bt.gov.oag.elms.entity.CaseInformation;
-import bt.gov.oag.elms.entity.DefendantInformation;
 import bt.gov.oag.elms.entity.IncomingAttachmentMapping;
 import bt.gov.oag.elms.entity.IncomingLetter;
 import bt.gov.oag.elms.pojo.CaseApiResponse;

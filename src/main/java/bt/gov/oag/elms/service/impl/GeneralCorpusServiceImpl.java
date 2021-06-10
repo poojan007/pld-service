@@ -1,5 +1,6 @@
 package bt.gov.oag.elms.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import bt.gov.oag.elms.client.WorkflowProcess;
 import bt.gov.oag.elms.entity.GeneralCorpus;
 import bt.gov.oag.elms.exception.RecordNotFoundException;
 import bt.gov.oag.elms.pojo.GeneralCorpusRequest;
+import bt.gov.oag.elms.pojo.TaskVariables;
 import bt.gov.oag.elms.repository.GeneralCorpusRepository;
 import bt.gov.oag.elms.service.GeneralCorpusService;
 
@@ -51,6 +53,13 @@ public class GeneralCorpusServiceImpl implements GeneralCorpusService {
 		workflowService.completeTask(taskInstanceId, taskUtilService.processTaskVariables(generalCorpusRequest.getTaskVariables()));
 		
 		return new ResponseEntity<GeneralCorpus>(newGeneralCorpus, responseHeaders, HttpStatus.CREATED);
+	}
+	
+	@Override
+	public ResponseEntity<?> approveCorpusMeetingRequest(List<TaskVariables> taskVariables, String taskInstanceId) {
+		// Complete the task
+		workflowService.completeTask(taskInstanceId, taskUtilService.processTaskVariables(taskVariables));
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	private String urlHelper(GeneralCorpus generalCorpus, HttpServletRequest request) {

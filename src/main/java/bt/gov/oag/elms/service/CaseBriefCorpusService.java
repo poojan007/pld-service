@@ -13,7 +13,7 @@ import bt.gov.oag.elms.pojo.CaseBriefRequest;
 public interface CaseBriefCorpusService {
 
 	ResponseEntity<CaseBrief> saveCaseBriefDetails(CaseBriefRequest request, String taskInstanceId, HttpServletRequest req); 
-	ResponseEntity<List<CaseBrief>> getCaseBriefDetails(); 
+	ResponseEntity<CaseBrief> getCaseBriefDetails(Long incomingLetterId); 
 	ResponseEntity<ConflictOfInterest> saveConflictOfInterestDetails(ConflictOfInterest entity); 
 	ResponseEntity<List<ConflictOfInterest>> getConflictOfInterestDetails();
 

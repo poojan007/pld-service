@@ -49,4 +49,5 @@ public class CaseApiResponse {
 	private String exception;
 	
 	private String jurisdictionName;
+	private Long caseDataExist;
 }

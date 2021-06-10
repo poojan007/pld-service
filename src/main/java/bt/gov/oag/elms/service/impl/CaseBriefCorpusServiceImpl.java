@@ -1,7 +1,6 @@
 package bt.gov.oag.elms.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +15,6 @@ import bt.gov.oag.elms.TaskUtil;
 import bt.gov.oag.elms.client.WorkflowProcess;
 import bt.gov.oag.elms.entity.CaseBrief;
 import bt.gov.oag.elms.entity.ConflictOfInterest;
-import bt.gov.oag.elms.exception.RecordNotFoundException;
 import bt.gov.oag.elms.pojo.CaseBriefRequest;
 import bt.gov.oag.elms.repository.CaseBriefRepository;
 import bt.gov.oag.elms.repository.ConflictOfInterestRepository;
@@ -54,8 +52,8 @@ public class CaseBriefCorpusServiceImpl implements CaseBriefCorpusService {
 	}
 
 	@Override
-	public ResponseEntity<List<CaseBrief>> getCaseBriefDetails() {
-		return new ResponseEntity<List<CaseBrief>>(caseBriefRepository.findAll(), HttpStatus.OK);
+	public ResponseEntity<CaseBrief> getCaseBriefDetails(Long incomingLetterId) {
+		return new ResponseEntity<CaseBrief>(caseBriefRepository.findByIncomingLetterId(incomingLetterId), HttpStatus.OK);
 	}
 
 	@Override
@@ -76,15 +74,5 @@ public class CaseBriefCorpusServiceImpl implements CaseBriefCorpusService {
 		resourcePath.append(caseBrief.getId());
 
 		return resourcePath.toString();
-	}
-	
-	private CaseBrief findIfExists(Long id) {
-		Optional<CaseBrief> existingCaseBrief = caseBriefRepository.findById(id);
-
-		if (existingCaseBrief.isPresent()) {
-			return existingCaseBrief.get();
-		} else {
-			throw new RecordNotFoundException("Case brief with id: " + id + " doesnot exist");
-		}
 	}
 }

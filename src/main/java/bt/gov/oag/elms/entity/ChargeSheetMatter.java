@@ -1,21 +1,24 @@
-package bt.gov.oag.elms.entity; 
+package bt.gov.oag.elms.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
 
 @Entity
 @Data
-public class PoliceStation {
+public class ChargeSheetMatter {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; 
+	private int id;
 	@OneToOne
-	private Dzongkhag dzongkhag;
-	private String policeStationName;
+	private Offence offence;
+	@ManyToOne
+	private ChargeSheet chargeSheet;
+	private String chargeCount;
 }

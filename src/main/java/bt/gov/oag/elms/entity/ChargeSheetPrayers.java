@@ -1,4 +1,4 @@
-package bt.gov.oag.elms.entity; 
+package bt.gov.oag.elms.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,12 +10,12 @@ import lombok.Data;
 
 @Entity
 @Data
-public class PoliceStation {
+public class ChargeSheetPrayers {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; 
+	private int id;
 	@OneToOne
-	private Dzongkhag dzongkhag;
-	private String policeStationName;
+	private ChargeSheet chargeSheet;
+	private String prayer;
 }

@@ -7,4 +7,5 @@ import bt.gov.oag.elms.entity.CaseBrief;
 
 public interface CaseBriefRepository extends JpaRepository<CaseBrief, Long> {
 
+	CaseBrief findByIncomingLetterId(Long incomingLetterId);
 }

@@ -16,5 +16,6 @@ public class GeneralCorpusRequest {
 	private String member;
 	private String presidedBy;
 	private int createdBy;
+	private int updatedBy;
 	private List<TaskVariables> taskVariables;
 }

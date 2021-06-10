@@ -17,6 +17,7 @@ import bt.gov.oag.elms.entity.IncomingLetter;
 import bt.gov.oag.elms.entity.InvestigatingOfficer;
 import bt.gov.oag.elms.entity.VictimInformation;
 import bt.gov.oag.elms.pojo.CaseApiResponse;
+import bt.gov.oag.elms.pojo.InvestigatingOfficerResponse;
 import bt.gov.oag.elms.service.CaseInformationService; 
 
 @RestController
@@ -87,7 +88,7 @@ public class CaseInformationController {
 	}
 
 	@GetMapping("/investigating-information-by-caseId/{incoming_letter_id}")
-	public ResponseEntity<InvestigatingOfficer> getInvestigatingInformationByCaseId(@PathVariable Long incoming_letter_id) {
+	public ResponseEntity<InvestigatingOfficerResponse> getInvestigatingInformationByCaseId(@PathVariable Long incoming_letter_id) {
 		return caseInformationService.getInvestigatingInformationByCaseId(incoming_letter_id);
 	} 
 	

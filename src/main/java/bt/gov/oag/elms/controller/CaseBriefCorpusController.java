@@ -32,9 +32,9 @@ public class CaseBriefCorpusController {
 		return caseBriefCorpusService.saveCaseBriefDetails(request, taskInstanceId, req);
 	}
 
-	@GetMapping("/details")
-	public ResponseEntity<List<CaseBrief>> getCaseBriefDetails() {
-		return caseBriefCorpusService.getCaseBriefDetails();
+	@GetMapping("/{incomingLetterId}")
+	public ResponseEntity<CaseBrief> getCaseBriefDetails(@PathVariable Long incomingLetterId) {
+		return caseBriefCorpusService.getCaseBriefDetails(incomingLetterId);
 	}
 
 	/* Conflict Of Interest */

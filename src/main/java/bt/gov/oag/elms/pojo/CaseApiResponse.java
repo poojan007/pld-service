@@ -44,6 +44,7 @@ public class CaseApiResponse {
 	private int dueProcess;
 	private int accessEvidence;
 	private int caseUnderReview;   
+	private int remandExtension;  
 	private Long caseDataExist;
 	
 	private String message;

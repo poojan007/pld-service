@@ -43,6 +43,7 @@ public class IncomingLetter {
 	private int dueProcess;
 	private int accessEvidence;
 	private int caseUnderReview;  
+	private int remandExtension;  
 	private String letterStatus;
 	@Column(name = "file_category_id")
 	private Long fileCategoryId;

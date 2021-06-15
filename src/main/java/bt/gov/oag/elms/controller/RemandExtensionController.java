@@ -21,9 +21,9 @@ public class RemandExtensionController {
 	@Autowired 
 	private RemandExtensionService remandExtensionService;
 	
-	@PostMapping("/details")
-	public ResponseEntity<RemandExtension> saveRemandExtensionDeatails(@RequestBody RemandExtension data){
-		return remandExtensionService.saveRemandExtensionDetails(data);
+	@PostMapping("/details/{taskInstanceId}")
+	public ResponseEntity<RemandExtension> saveRemandExtensionDeatails(@RequestBody RemandExtension data,@PathVariable String taskInstanceId){
+		return remandExtensionService.saveRemandExtensionDetails(data,taskInstanceId);
 	}
 	
 	@GetMapping("/detailList")

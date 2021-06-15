@@ -80,7 +80,7 @@ public class FileCaseServiceImpl implements FileCaseService {
 
 		try {  
 			 
-			body.put(caseRequest.getTaskVariables().get(0).getKey(), caseRequest.getTaskVariables().get(0).getValue()); 
+			body.put("assigneeProsecutor",19); 
 			workflowService.completeTask(taskInstanceId, body);
 			
 			caseInformationRepository.save(updateCaseInformation);
